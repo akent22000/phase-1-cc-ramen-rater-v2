@@ -1,29 +1,55 @@
 // index.js
+const ramenMenu = document.querySelector("#ramen-menu")
+const detailImage = document.querySelector(".detail-image")
+const detailName = document.querySelector(".name")
+const detailRestaurant = document.querySelector(".restaurant")
+const detailRating = document.querySelector("#rating-display")
+const detailComment = document.querySelector("#comment-display")
 
-// Callbacks
-const handleClick = (ramen) => {
-  // Add code
-};
+fetch("http://localhost:3000/ramens")
+  .then(res => res.json())
+  .then(ramens => {
+    ramens.forEach(ramen => {
+      addRamen(ramen)
+    })
+  })
 
-const addSubmitListener = () => {
-  // Add code
+function addRamen(ramen) {
+  const ramenMenu = document.getElementById("ramen-menu")
+
+  const menuItem = document.createElement("img")
+  menuItem.src = ramen.image
+  ramenMenu.append(menuItem)
+
+  menuItem.addEventListener("click", e => {
+    detailImage.src = ramen.image
+    detailName.textContent = ramen.name
+    detailRestaurant.textContent = ramen.restaurant
+    detailComment.textContent = ramen.comment
+    detailRating.textContent = ramen.rating
+  })
+  console.log("www")
+
 }
 
-const displayRamens = () => {
-  // Add code
-};
+const formNewRamen = document.querySelector("#new-ramen")
 
-const main = () => {
-  // Invoke displayRamens here
-  // Invoke addSubmitListener here
-}
+formNewRamen.addEventListener("submit", e => {
+  e.preventDefault()
+  const formNewName = document.querySelector("#new-name").value
+  const formNewRestaurant = document.querySelector("#new-restaurant").value
+  const formNewImage = document.querySelector("#new-image").value
+  const formNewRating = document.querySelector("#new-rating").value
+  const formNewComment = document.querySelector("#new-comment").value
 
-main()
-
-// Export functions for testing
-export {
-  displayRamens,
-  addSubmitListener,
-  handleClick,
-  main,
-};
+  ramen = {
+    name: formNewName,
+    restaurant: formNewRestaurant,
+    image: formNewImage,
+    rating: formNewRating,
+    comment: formNewComment
+  }
+  console.log("www")
+  addRamen(ramen)
+  e.target.reset()
+})
